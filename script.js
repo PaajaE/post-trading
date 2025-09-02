@@ -131,30 +131,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Mobile menu toggle
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const navMenu = document.querySelector('nav ul:last-child');
+    const mobileMenu = document.querySelector('.mobile-menu');
     
-    if (mobileMenuBtn && navMenu) {
+    if (mobileMenuBtn && mobileMenu) {
         mobileMenuBtn.addEventListener('click', function() {
             this.classList.toggle('active');
-            navMenu.classList.toggle('show');
+            mobileMenu.classList.toggle('show');
             document.body.classList.toggle('menu-open');
         });
         
         // Close menu when clicking on a link
-        const navLinks = navMenu.querySelectorAll('a');
+        const navLinks = mobileMenu.querySelectorAll('a');
         navLinks.forEach(link => {
             link.addEventListener('click', function() {
                 mobileMenuBtn.classList.remove('active');
-                navMenu.classList.remove('show');
+                mobileMenu.classList.remove('show');
                 document.body.classList.remove('menu-open');
             });
         });
         
         // Close menu when clicking outside
         document.addEventListener('click', function(e) {
-            if (!mobileMenuBtn.contains(e.target) && !navMenu.contains(e.target)) {
+            if (!mobileMenuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
                 mobileMenuBtn.classList.remove('active');
-                navMenu.classList.remove('show');
+                mobileMenu.classList.remove('show');
                 document.body.classList.remove('menu-open');
             }
         });
@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('resize', function() {
             if (window.innerWidth > 768) {
                 mobileMenuBtn.classList.remove('active');
-                navMenu.classList.remove('show');
+                mobileMenu.classList.remove('show');
                 document.body.classList.remove('menu-open');
             }
         });
