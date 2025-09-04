@@ -2,6 +2,18 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     
+    // Check if EmailJS is available
+    if (typeof window.emailjs === 'undefined') {
+        console.error('EmailJS not loaded. Please check the CDN link.');
+        return;
+    }
+    
+    // Initialize EmailJS after DOM is loaded
+    // Replace 'YOUR_PUBLIC_KEY' with your actual EmailJS public key
+    window.emailjs.init('YOUR_PUBLIC_KEY');
+    
+    // Smooth scrolling for navigation links
+    
     // Smooth scrolling for navigation links
     const navLinks = document.querySelectorAll('nav a[href^="#"]');
     navLinks.forEach(link => {
@@ -22,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Form submission handling
+    // Form submission handling with EmailJS
     const contactForm = document.querySelector('.contact-form form');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
@@ -33,6 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const name = formData.get('name');
             const email = formData.get('email');
             const company = formData.get('company');
+            const service = formData.get('service');
             const message = formData.get('message');
             
             // Simple validation
@@ -48,19 +61,44 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // Simulate form submission
+            // Update button state
             const submitButton = this.querySelector('.submit-button');
             const originalText = submitButton.textContent;
             submitButton.textContent = 'Odesílám...';
             submitButton.disabled = true;
             
-            // Simulate API call
-            setTimeout(() => {
-                showNotification('Děkujeme za vaši zprávu! Budeme vás kontaktovat co nejdříve.', 'success');
-                this.reset();
-                submitButton.textContent = originalText;
-                submitButton.disabled = false;
-            }, 2000);
+            // Prevent rapid submissions
+            if (this.dataset.submitting === 'true') {
+                return;
+            }
+            this.dataset.submitting = 'true';
+            
+            // Prepare template parameters
+            const templateParams = {
+                from_name: name,
+                from_email: email,
+                company: company || 'Neuvedeno',
+                service: service || 'Neuvedeno',
+                message: message,
+                to_name: 'JASPER Systems'
+            };
+            
+            // Send email using EmailJS
+            // Replace 'YOUR_SERVICE_ID' and 'YOUR_TEMPLATE_ID' with your actual EmailJS service and template IDs
+            window.emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    showNotification('Děkujeme za vaši zprávu! Budeme vás kontaktovat co nejdříve.', 'success');
+                    contactForm.reset();
+                }, function(error) {
+                    console.log('FAILED...', error);
+                    showNotification('Omlouváme se, při odesílání zprávy došlo k chybě. Zkuste to prosím znovu.', 'error');
+                })
+                .finally(function() {
+                    submitButton.textContent = originalText;
+                    submitButton.disabled = false;
+                    contactForm.dataset.submitting = 'false';
+                });
         });
     }
 
