@@ -9,8 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Initialize EmailJS after DOM is loaded
-    // Replace 'YOUR_PUBLIC_KEY' with your actual EmailJS public key
-    window.emailjs.init('YOUR_PUBLIC_KEY');
+    window.emailjs.init('Dsc380ZTi-XwJa8kT');
     
     // Smooth scrolling for navigation links
     
@@ -54,6 +53,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
+            // reCAPTCHA validation
+            const recaptchaResponse = grecaptcha.getResponse();
+            if (!recaptchaResponse) {
+                showNotification('Prosím dokončete reCAPTCHA ověření.', 'error');
+                return;
+            }
+            
             // Email validation
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
@@ -84,12 +90,12 @@ document.addEventListener('DOMContentLoaded', function() {
             };
             
             // Send email using EmailJS
-            // Replace 'YOUR_SERVICE_ID' and 'YOUR_TEMPLATE_ID' with your actual EmailJS service and template IDs
-            window.emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+            window.emailjs.send('service_iqjdf2b', 'template_7nmscfu', templateParams)
                 .then(function(response) {
                     console.log('SUCCESS!', response.status, response.text);
                     showNotification('Děkujeme za vaši zprávu! Budeme vás kontaktovat co nejdříve.', 'success');
                     contactForm.reset();
+                    grecaptcha.reset();
                 }, function(error) {
                     console.log('FAILED...', error);
                     showNotification('Omlouváme se, při odesílání zprávy došlo k chybě. Zkuste to prosím znovu.', 'error');

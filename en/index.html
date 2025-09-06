@@ -291,6 +291,9 @@
                         <div class="form-group">
                             <textarea name="message" placeholder="Your message" rows="5" required></textarea>
                         </div>
+                        <div class="form-group">
+                            <div class="g-recaptcha" data-sitekey="YOUR_ACTUAL_SITE_KEY_HERE"></div>
+                        </div>
                         <button type="submit" class="submit-button">Send Message</button>
                     </form>
                 </div>
@@ -324,7 +327,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 JASPER Systems. All rights reserved.</p>
+                <p>&copy; <script>document.write(new Date().getFullYear())</script> JASPER Systems. All rights reserved.</p>
             </div>
         </div>
     </footer>
