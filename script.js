@@ -2,6 +2,9 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     
+    // Get current language configuration
+    const config = window.getCurrentConfig ? window.getCurrentConfig() : null;
+    
     // Check if EmailJS is available
     if (typeof window.emailjs === 'undefined') {
         console.error('EmailJS not loaded. Please check the CDN link.');
@@ -49,28 +52,36 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Simple validation
             if (!name || !email || !message) {
-                showNotification('Prosím vyplňte všechna povinná pole.', 'error');
+                const message = config && config.form && config.form.validation ? 
+                    config.form.validation.required : 'Please fill in all required fields.';
+                showNotification(message, 'error');
                 return;
             }
             
             // reCAPTCHA validation
             const recaptchaResponse = grecaptcha.getResponse();
             if (!recaptchaResponse) {
-                showNotification('Prosím dokončete reCAPTCHA ověření.', 'error');
+                const message = config && config.form && config.form.validation ? 
+                    config.form.validation.recaptcha : 'Please complete the reCAPTCHA verification.';
+                showNotification(message, 'error');
                 return;
             }
             
             // Email validation
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
-                showNotification('Prosím zadejte platný email.', 'error');
+                const message = config && config.form && config.form.validation ? 
+                    config.form.validation.email : 'Please enter a valid email.';
+                showNotification(message, 'error');
                 return;
             }
             
             // Update button state
             const submitButton = this.querySelector('.submit-button');
             const originalText = submitButton.textContent;
-            submitButton.textContent = 'Odesílám...';
+            const submittingText = config && config.form && config.form.submitting ? 
+                config.form.submitting : 'Sending...';
+            submitButton.textContent = submittingText;
             submitButton.disabled = true;
             
             // Prevent rapid submissions
@@ -93,12 +104,16 @@ document.addEventListener('DOMContentLoaded', function() {
             window.emailjs.send('service_iqjdf2b', 'template_7nmscfu', templateParams)
                 .then(function(response) {
                     console.log('SUCCESS!', response.status, response.text);
-                    showNotification('Děkujeme za vaši zprávu! Budeme vás kontaktovat co nejdříve.', 'success');
+                    const successMessage = config && config.form && config.form.success ? 
+                        config.form.success : 'Thank you for your message! We will contact you as soon as possible.';
+                    showNotification(successMessage, 'success');
                     contactForm.reset();
                     grecaptcha.reset();
                 }, function(error) {
                     console.log('FAILED...', error);
-                    showNotification('Omlouváme se, při odesílání zprávy došlo k chybě. Zkuste to prosím znovu.', 'error');
+                    const errorMessage = config && config.form && config.form.error ? 
+                        config.form.error : 'Sorry, there was an error sending the message. Please try again.';
+                    showNotification(errorMessage, 'error');
                 })
                 .finally(function() {
                     submitButton.textContent = originalText;
@@ -112,7 +127,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const ctaButtons = document.querySelectorAll('.cta-button, .cta-button-large');
     ctaButtons.forEach(button => {
         button.addEventListener('click', function() {
-            const contactSection = document.querySelector('#kontakt');
+            // Use language-specific contact section ID
+            const contactId = config && config.language === 'en' ? '#contact' : '#kontakt';
+            const contactSection = document.querySelector(contactId);
             if (contactSection) {
                 const navHeight = document.querySelector('nav').offsetHeight;
                 const targetPosition = contactSection.offsetTop - navHeight;

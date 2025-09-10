@@ -1,5 +1,5 @@
 // Cookie Consent Management
-// GDPR-compliant cookie consent implementation
+// GDPR-compliant cookie consent implementation with multi-language support
 
 class CookieConsent {
     constructor() {
@@ -11,10 +11,16 @@ class CookieConsent {
         this.rejectBtn = document.getElementById('rejectCookies');
         this.analyticsCheckbox = document.getElementById('marketingCookies');
         
+        // Get current language configuration
+        this.config = window.getCurrentConfig ? window.getCurrentConfig() : null;
+        
         this.init();
     }
 
     init() {
+        // Update banner text based on current language
+        this.updateBannerText();
+        
         // Check if consent has already been given
         if (!this.hasConsent()) {
             this.showBanner();
@@ -24,6 +30,48 @@ class CookieConsent {
 
         // Add event listeners
         this.addEventListeners();
+    }
+
+    updateBannerText() {
+        if (!this.config || !this.banner) return;
+        
+        const cookieConsent = this.config.cookieConsent;
+        
+        // Update title
+        const titleElement = this.banner.querySelector('h4');
+        if (titleElement) {
+            titleElement.textContent = cookieConsent.title;
+        }
+        
+        // Update description
+        const descElement = this.banner.querySelector('p');
+        if (descElement) {
+            descElement.textContent = cookieConsent.description;
+        }
+        
+        // Update checkbox labels
+        const necessaryLabel = this.banner.querySelector('label:first-of-type span');
+        if (necessaryLabel) {
+            necessaryLabel.textContent = cookieConsent.necessary;
+        }
+        
+        const analyticsLabel = this.banner.querySelector('label:last-of-type span');
+        if (analyticsLabel) {
+            analyticsLabel.textContent = cookieConsent.analytics;
+        }
+        
+        // Update button texts
+        if (this.acceptAllBtn) {
+            this.acceptAllBtn.textContent = cookieConsent.acceptAll;
+        }
+        
+        if (this.acceptSelectedBtn) {
+            this.acceptSelectedBtn.textContent = cookieConsent.acceptSelected;
+        }
+        
+        if (this.rejectBtn) {
+            this.rejectBtn.textContent = cookieConsent.reject;
+        }
     }
 
     hasConsent() {
@@ -188,3 +236,4 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
