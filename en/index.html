@@ -5,6 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Active Trading Accounting - Professional Accounting Services for Capital Markets</title>
     <meta name="description" content="Specialized accounting services for active trading on capital markets. Transaction accounting, reporting and consulting for investors and securities traders.">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-S53VQ14VEK"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      // Configure Google Analytics with consent mode
+      gtag('consent', 'default', {
+        'analytics_storage': 'denied',
+        'ad_storage': 'denied'
+      });
+      
+      gtag('config', 'G-S53VQ14VEK', {
+        'anonymize_ip': true
+      });
+    </script>
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -332,7 +351,33 @@
         </div>
     </footer>
 
+    <!-- Cookie Consent Banner -->
+    <div id="cookieConsent" class="cookie-consent-banner" style="display: none;">
+        <div class="cookie-consent-content">
+            <div class="cookie-consent-text">
+                <h4>🍪 Cookies</h4>
+                <p>We use cookies to analyze website traffic and improve user experience. You can choose which cookies to allow.</p>
+                <div class="cookie-consent-details">
+                    <label class="cookie-consent-checkbox">
+                        <input type="checkbox" id="analyticsCookies" checked disabled>
+                        <span>Necessary cookies (always active)</span>
+                    </label>
+                    <label class="cookie-consent-checkbox">
+                        <input type="checkbox" id="marketingCookies">
+                        <span>Analytics cookies (Google Analytics)</span>
+                    </label>
+                </div>
+            </div>
+            <div class="cookie-consent-buttons">
+                <button id="acceptAllCookies" class="cookie-btn cookie-btn-accept">Accept All</button>
+                <button id="acceptSelectedCookies" class="cookie-btn cookie-btn-selected">Accept Selected</button>
+                <button id="rejectCookies" class="cookie-btn cookie-btn-reject">Reject</button>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="../script.js"></script>
+    <script src="../cookie-consent.js"></script>
 </body>
 </html>
