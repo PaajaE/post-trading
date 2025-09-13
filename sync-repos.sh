@@ -65,6 +65,7 @@ sync_common_files() {
         "AUTO_REPLY_SETUP.md"
         "auto_reply_template_czech.html"
         "auto_reply_template_english.html"
+        "robots.txt"
     )
     
     for file in "${COMMON_FILES[@]}"; do
@@ -98,7 +99,67 @@ update_english_version() {
     sed -i '' 's|../cookie-consent.js|cookie-consent.js|g' "$ENGLISH_REPO/index.html"
     sed -i '' 's|../config.js|config.js|g' "$ENGLISH_REPO/index.html"
     
+    # Copy and update sitemap for English version
+    if [ -f "$CZECH_REPO/en/sitemap.xml" ]; then
+        cp "$CZECH_REPO/en/sitemap.xml" "$ENGLISH_REPO/sitemap.xml"
+        print_success "Updated English sitemap.xml"
+    else
+        print_warning "English sitemap.xml not found, creating default..."
+        create_english_sitemap
+    fi
+    
     print_success "Updated asset paths in English version"
+}
+
+# Function to create English sitemap
+create_english_sitemap() {
+    cat > "$ENGLISH_REPO/sitemap.xml" << 'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <!-- Main English page -->
+  <url>
+    <loc>https://www.post-trading.com/</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://www.uctujtrading.cz/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.post-trading.com/"/>
+  </url>
+  
+  <!-- English page sections -->
+  <url>
+    <loc>https://www.post-trading.com/#services</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.post-trading.com/#target-audience</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.post-trading.com/#references</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.post-trading.com/#contact</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+</urlset>
+EOF
+    print_success "Created English sitemap.xml"
 }
 
 # Function to update Czech version with English changes

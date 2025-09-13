@@ -99,12 +99,12 @@ Update the CNAME files with your actual domains:
 
 **Czech repo CNAME:**
 ```
-your-domain.cz
+uctujtrading.cz
 ```
 
 **English repo CNAME:**
 ```
-en.your-domain.cz
+post-trading.com
 ```
 
 ### 4. Test the Setup
