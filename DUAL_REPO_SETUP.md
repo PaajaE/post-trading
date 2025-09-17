@@ -69,13 +69,13 @@ chmod +x sync-repos.sh
 1. Go to Settings → Pages
 2. Source: Deploy from a branch
 3. Branch: main
-4. Custom domain: `your-domain.cz`
+4. Custom domain: `uctujtrading.cz`
 
 #### English Repository (post-trading-en)
 1. Go to Settings → Pages
 2. Source: Deploy from a branch
 3. Branch: main
-4. Custom domain: `en.your-domain.cz` or `your-domain.com`
+4. Custom domain: `post-trading.com`
 
 ### 4. Custom Domain Configuration
 
