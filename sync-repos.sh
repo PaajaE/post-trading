@@ -52,14 +52,13 @@ create_backup() {
 sync_common_files() {
     print_status "Syncing common files between repositories..."
     
-    # Files to sync (excluding language-specific content)
+    # Files to sync (excluding language-specific content and CNAME)
     COMMON_FILES=(
         "styles.css"
         "script.js"
         "cookie-consent.js"
         "config.js"
         "assets/"
-        "CNAME"
         "README.md"
         "EMAILJS_SETUP.md"
         "AUTO_REPLY_SETUP.md"
