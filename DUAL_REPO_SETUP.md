@@ -83,12 +83,12 @@ Create a `CNAME` file in each repository root with your domain:
 
 **Czech repo CNAME:**
 ```
-your-domain.cz
+www.uctujtrading.cz
 ```
 
 **English repo CNAME:**
 ```
-en.your-domain.cz
+www.post-trading.com
 ```
 
 ## File Structure

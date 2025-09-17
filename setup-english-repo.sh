@@ -52,7 +52,6 @@ COMMON_FILES=(
     "cookie-consent.js"
     "config.js"
     "assets"
-    "CNAME"
     "README.md"
     "EMAILJS_SETUP.md"
     "AUTO_REPLY_SETUP.md"
@@ -78,11 +77,6 @@ sed -i '' 's|../cookie-consent.js|cookie-consent.js|g' "$ENGLISH_REPO/index.html
 sed -i '' 's|../config.js|config.js|g' "$ENGLISH_REPO/index.html"
 
 print_success "Updated asset paths in English version"
-
-# Create CNAME file for English domain
-print_status "Creating CNAME file for English domain..."
-echo "en.your-domain.cz" > "$ENGLISH_REPO/CNAME"
-print_success "Created CNAME file"
 
 # Create .gitignore
 print_status "Creating .gitignore..."
