@@ -64,7 +64,6 @@ sync_common_files() {
         "AUTO_REPLY_SETUP.md"
         "auto_reply_template_czech.html"
         "auto_reply_template_english.html"
-        "robots.txt"
     )
     
     for file in "${COMMON_FILES[@]}"; do
